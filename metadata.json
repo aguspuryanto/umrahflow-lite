@@ -1,0 +1,7 @@
+{
+  "name": "UmrahFlow - All-in-One Umrah & Tour Platform",
+  "description": "A comprehensive e-commerce and management platform for Umrah and Halal tours, featuring online booking, pilgrim management, and an AI-powered travel assistant.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
