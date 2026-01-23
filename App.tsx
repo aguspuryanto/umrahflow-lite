@@ -32,7 +32,9 @@ import {
   Tent,
   Building,
   History,
-  ChevronLeft
+  ChevronLeft,
+  XCircle,
+  ChevronDown
 } from 'lucide-react';
 import { AppView, Package, Pilgrim, Post, MapLocation, Review } from './types';
 import { PACKAGES, MOCK_PILGRIMS, MOCK_POSTS, MOCK_REVIEWS, MAP_LOCATIONS } from './constants';
@@ -113,9 +115,9 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
   };
 
   return (
-    <div className="bg-white rounded-[2rem] border border-gray-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group flex flex-col h-full">
-      {/* Image Carousel Section */}
-      <div className="relative h-64 overflow-hidden">
+    <div className="bg-white rounded-[2rem] border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-100 transition-all duration-500 group flex flex-col h-full">
+      {/* Image Carousel Section with Zoom Hover Effect */}
+      <div className="relative h-64 overflow-hidden transition-transform duration-500 group-hover:scale-110">
         <div 
           className="flex transition-transform duration-700 ease-out h-full"
           style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
@@ -130,8 +132,7 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
           ))}
         </div>
         
-        {/* Carousel Controls */}
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <button onClick={prevImage} className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all">
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -140,8 +141,7 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
           </button>
         </div>
 
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-4 inset-x-0 flex justify-center gap-1.5">
+        <div className="absolute bottom-4 inset-x-0 flex justify-center gap-1.5 z-10">
           {pkg.images.map((_, idx) => (
             <div 
               key={idx} 
@@ -150,27 +150,25 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
           ))}
         </div>
 
-        {/* Status Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        <div className="absolute top-4 left-4 flex gap-2 z-10">
           <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-[10px] font-extrabold text-emerald-700 shadow-sm uppercase tracking-widest border border-white/20">
             {pkg.type}
           </div>
         </div>
         
-        <div className="absolute top-4 right-4 bg-emerald-600 text-white px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 text-[10px] font-bold shadow-xl">
+        <div className="absolute top-4 right-4 bg-emerald-600 text-white px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 text-[10px] font-bold shadow-xl z-10">
           <Star className="w-3.5 h-3.5 fill-white" /> {pkg.rating}
         </div>
 
         {isFull && (
-          <div className="absolute inset-0 bg-emerald-950/60 backdrop-blur-[2px] flex items-center justify-center">
+          <div className="absolute inset-0 bg-emerald-950/60 backdrop-blur-[2px] flex items-center justify-center z-20">
             <span className="bg-rose-500 text-white px-6 py-2 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-2xl animate-pulse">Full Booked</span>
           </div>
         )}
       </div>
 
-      {/* Content Section */}
-      <div className="p-6 flex flex-col flex-1">
-        {/* Header Section */}
+      {/* Content Section - Prevent children from scaling with the header */}
+      <div className="p-6 flex flex-col flex-1 bg-white relative z-30">
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <Plane className="w-4 h-4 text-emerald-500" />
@@ -179,7 +177,6 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
           <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-emerald-600 transition-colors leading-tight line-clamp-1">{pkg.title}</h3>
         </div>
 
-        {/* Info Grid (Duration & Stats) */}
         <div className="grid grid-cols-2 gap-4 py-4 border-y border-gray-50 mb-5">
           <div className="flex flex-col gap-1">
             <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Durasi</span>
@@ -197,7 +194,6 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
           </div>
         </div>
 
-        {/* Features Preview Section */}
         <div className="mb-6 flex-1">
           <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-3 block">Fasilitas Utama</span>
           <div className="flex flex-wrap gap-2">
@@ -212,7 +208,6 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
           </div>
         </div>
 
-        {/* Price & CTA Section */}
         <div className="pt-6 border-t border-gray-50 flex items-center justify-between mt-auto">
           <div className="flex flex-col">
             <p className="text-[9px] text-gray-400 font-extrabold uppercase tracking-widest mb-1">Mulai Dari</p>
@@ -234,6 +229,49 @@ const PackageItem: React.FC<{ pkg: Package; onSelect: (p: Package) => void }> = 
             Pilih <ArrowRight className="w-4 h-4" />
           </button>
         </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Hotel Gallery Carousel for Booking View ---
+const HotelCarousel: React.FC<{ images: string[]; captions?: string[] }> = ({ images, captions }) => {
+  const [index, setIndex] = useState(0);
+
+  if (!images || images.length === 0) return null;
+
+  const next = () => setIndex((prev) => (prev + 1) % images.length);
+  const prev = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
+
+  return (
+    <div className="relative w-full h-[400px] rounded-[2.5rem] overflow-hidden group shadow-2xl border-4 border-white">
+      <div 
+        className="flex h-full transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${index * 100}%)` }}
+      >
+        {images.map((img, i) => (
+          <div key={i} className="relative h-full w-full shrink-0">
+            <img src={img} className="w-full h-full object-cover" alt="Hotel Room" />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-10">
+              {captions && captions[i] && (
+                <p className="text-white text-lg font-bold tracking-tight animate-in slide-in-from-bottom-5">{captions[i]}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button onClick={prev} className="absolute left-6 top-1/2 -translate-y-1/2 p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all opacity-0 group-hover:opacity-100">
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+      <button onClick={next} className="absolute right-6 top-1/2 -translate-y-1/2 p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all opacity-0 group-hover:opacity-100">
+        <ChevronRight className="w-6 h-6" />
+      </button>
+
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+        {images.map((_, i) => (
+          <button key={i} onClick={() => setIndex(i)} className={`h-1.5 rounded-full transition-all ${index === i ? 'w-8 bg-emerald-500' : 'w-2 bg-white/50'}`} />
+        ))}
       </div>
     </div>
   );
@@ -447,7 +485,6 @@ const MapView: React.FC = () => {
         <div className="lg:col-span-3 bg-[#f3f4f6] rounded-3xl relative overflow-hidden border border-gray-200 shadow-inner flex items-center justify-center">
           <div className="absolute inset-0 opacity-10 pattern-dots"></div>
           
-          {/* Schematic Map Representation */}
           <div className="relative w-full h-full p-8 flex flex-col items-center justify-center text-center">
             {filteredLocations.map((loc, idx) => (
                <div 
@@ -619,7 +656,6 @@ const ChatAssistant: React.FC = () => {
 const LandingPage: React.FC<{ onExplore: () => void }> = ({ onExplore }) => {
   return (
     <div className="relative">
-      {/* Hero Section */}
       <section className="relative h-[650px] flex items-center overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img 
@@ -654,7 +690,6 @@ const LandingPage: React.FC<{ onExplore: () => void }> = ({ onExplore }) => {
         </div>
       </section>
 
-      {/* Highlights */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20">
@@ -789,7 +824,7 @@ const PackageBooking: React.FC<{ pkg: Package; onBack: () => void; onComplete: (
         <div className="grid lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-5">
-               <div className="flex flex-col md:flex-row gap-8 mb-10">
+               <div className="flex flex-col md:flex-row gap-8 mb-8">
                   <div className="w-full md:w-80 h-52 shrink-0 rounded-[2rem] overflow-hidden border-4 border-emerald-50 shadow-inner">
                     <img src={pkg.images[0]} className="w-full h-full object-cover" alt={pkg.title} />
                   </div>
@@ -802,20 +837,164 @@ const PackageBooking: React.FC<{ pkg: Package; onBack: () => void; onComplete: (
                     </div>
                     <h2 className="text-3xl font-extrabold text-gray-900 mb-4 tracking-tight leading-tight">{pkg.title}</h2>
                     <p className="text-gray-600 text-base leading-relaxed mb-6 font-medium">{pkg.description}</p>
-                    <div className="flex flex-wrap gap-4">
-                      {pkg.features.slice(0, 3).map((f, i) => (
-                        <div key={i} className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-2xl text-xs font-bold text-gray-500">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500" /> {f}
+                  </div>
+               </div>
+               
+               {/* Hotel Carousel Integrated After Description */}
+               {pkg.hotelImages && pkg.hotelImages.length > 0 && (
+                  <div className="mt-6 border-t border-gray-100 pt-10">
+                     <h3 className="text-xl font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+                        <Building className="w-7 h-7 text-emerald-600" /> Galeri Akomodasi
+                     </h3>
+                     <HotelCarousel images={pkg.hotelImages} captions={pkg.hotelCaptions} />
+                  </div>
+               )}
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+               <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                  <h3 className="text-lg font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+                     <CheckCircle2 className="w-6 h-6 text-emerald-600" /> Fasilitas Termasuk
+                  </h3>
+                  <ul className="space-y-4">
+                     {pkg.included.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium">
+                           <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                           {item}
+                        </li>
+                     ))}
+                  </ul>
+               </div>
+
+               <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                  <h3 className="text-lg font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+                     <XCircle className="w-6 h-6 text-rose-500" /> Belum Termasuk
+                  </h3>
+                  <ul className="space-y-4">
+                     {pkg.excluded.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium opacity-80">
+                           <XCircle className="w-4 h-4 text-rose-300 mt-0.5 shrink-0" />
+                           {item}
+                        </li>
+                     ))}
+                  </ul>
+               </div>
+            </div>
+
+            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm">
+               <h3 className="text-xl font-extrabold text-gray-900 mb-10 flex items-center gap-3">
+                  <Calendar className="w-7 h-7 text-emerald-600" /> Rencana Perjalanan
+               </h3>
+               <div className="relative space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-emerald-100 before:to-transparent">
+                  {pkg.itinerary.map((step, i) => (
+                     <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-emerald-500 text-white shadow shadow-emerald-200 absolute left-0 md:left-1/2 md:-translate-x-1/2 z-10 font-black text-xs">
+                           {step.day}
                         </div>
-                      ))}
-                    </div>
+                        <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-50 p-6 rounded-2xl border border-gray-100 group-hover:bg-white group-hover:shadow-lg transition-all">
+                           <h4 className="font-extrabold text-emerald-700 text-sm mb-2 uppercase tracking-widest">Hari Ke-{step.day}</h4>
+                           <h5 className="font-bold text-gray-900 text-base mb-2">{step.title}</h5>
+                           <p className="text-sm text-gray-600 font-medium leading-relaxed">{step.description}</p>
+                        </div>
+                     </div>
+                  ))}
+               </div>
+            </div>
+
+            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm animate-in fade-in duration-700">
+               <div className="max-w-3xl mx-auto">
+                  <h2 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Rencanakan perjalanan ibadah umroh Anda bersama <span className="text-emerald-600">UmrahFlow</span>.</h2>
+                  <p className="text-gray-500 mb-10 text-lg">Isi formulir konsultasi untuk mendapatkan informasi lebih lanjut perihal umroh dan haji Rabbanitour.</p>
+
+                  <div className="space-y-6">
+                     <div className="space-y-2">
+                        <label className="block text-base font-bold text-gray-900">Panggilan</label>
+                        <div className="relative">
+                           <select className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-gray-600 focus:ring-2 focus:ring-emerald-500 outline-none appearance-none font-medium">
+                              <option value="" disabled selected>Pilih Panggilan</option>
+                              <option value="tuan">Tuan</option>
+                              <option value="nyonya">Nyonya</option>
+                              <option value="nona">Nona</option>
+                              <option value="haji">Bapak Haji</option>
+                              <option value="hajjah">Ibu Hajjah</option>
+                           </select>
+                           <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                        </div>
+                     </div>
+
+                     <div className="space-y-2">
+                        <label className="block text-base font-bold text-gray-900">Nama Lengkap <span className="text-rose-500">*</span></label>
+                        <input 
+                           type="text" 
+                           placeholder="Nama Lengkap" 
+                           className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none font-medium text-gray-900 placeholder:text-gray-300" 
+                        />
+                     </div>
+
+                     <div className="space-y-2">
+                        <label className="block text-base font-bold text-gray-900">WhatsApp <span className="text-rose-500">*</span></label>
+                        <input 
+                           type="tel" 
+                           placeholder="08123456789" 
+                           className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none font-medium text-gray-900 placeholder:text-gray-300" 
+                        />
+                     </div>
+
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                           <label className="block text-base font-bold text-gray-900">Paket Umroh</label>
+                           <div className="relative">
+                              <select className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-gray-600 focus:ring-2 focus:ring-emerald-500 outline-none appearance-none font-medium">
+                                 <option value="" disabled>Pilih Paket Umroh</option>
+                                 {PACKAGES.map(p => (
+                                    <option key={p.id} value={p.id} selected={p.id === pkg.id}>{p.title}</option>
+                                 ))}
+                              </select>
+                              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                           </div>
+                        </div>
+
+                        <div className="space-y-2">
+                           <label className="block text-base font-bold text-gray-900">Rencana Bulan Keberangkatan</label>
+                           <div className="relative">
+                              <select className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-gray-600 focus:ring-2 focus:ring-emerald-500 outline-none appearance-none font-medium">
+                                 <option value="" disabled selected>Pilih Bulan Keberangkatan</option>
+                                 <option value="jan">Januari 2025</option>
+                                 <option value="feb">Februari 2025</option>
+                                 <option value="mar">Maret 2025</option>
+                                 <option value="apr">April 2025</option>
+                                 <option value="mei">Mei 2025</option>
+                                 <option value="jun">Juni 2025</option>
+                              </select>
+                              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                           </div>
+                        </div>
+                     </div>
+
+                     <div className="pt-6">
+                        <button 
+                           onClick={handleBooking}
+                           disabled={loading}
+                           className="w-full bg-[#00C853] hover:bg-[#00B248] text-white py-4 rounded-xl font-extrabold text-xl flex items-center justify-center gap-3 shadow-lg shadow-emerald-200 transition-all active:scale-95"
+                        >
+                           {loading ? (
+                              <Loader2 className="w-6 h-6 animate-spin" />
+                           ) : (
+                              <>
+                                 <MessageCircle className="w-6 h-6 fill-white" />
+                                 Konsultasi Sekarang
+                              </>
+                           )}
+                        </button>
+                        <p className="mt-4 text-sm italic text-gray-400"><span className="text-rose-500">*</span> Kami menjamin kerahasiaan data Anda.</p>
+                     </div>
                   </div>
                </div>
             </div>
 
             <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm">
                <h3 className="text-xl font-extrabold mb-8 flex items-center gap-3">
-                 <Users className="w-7 h-7 text-emerald-600" /> Pengalaman Jamaah Sebelumnya
+                 <Users className="w-7 h-7 text-emerald-600" /> Pengalaman Jamaah
                </h3>
                <div className="space-y-8">
                  {MOCK_REVIEWS.filter(r => r.packageId === pkg.id).map(review => (
@@ -838,26 +1017,6 @@ const PackageBooking: React.FC<{ pkg: Package; onBack: () => void; onComplete: (
                    </div>
                  ))}
                </div>
-            </div>
-
-            <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm">
-              <h2 className="text-xl font-extrabold mb-8 flex items-center gap-3"><User className="w-7 h-7 text-emerald-600" /> Formulir Pendaftaran</h2>
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Nama Depan</label>
-                    <input type="text" className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-medium" placeholder="Contoh: Ahmad" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Nama Belakang</label>
-                    <input type="text" className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-medium" placeholder="Contoh: Subarjo" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Alamat Email</label>
-                  <input type="email" className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-medium" placeholder="nama@email.com" />
-                </div>
-              </div>
             </div>
           </div>
 
@@ -980,7 +1139,6 @@ const App: React.FC = () => {
         {renderContent()}
       </main>
 
-      {/* Mobile Navigation Bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-gray-100 px-3 py-4 flex justify-between items-center z-50 shadow-[0_-10px_25px_rgba(0,0,0,0.05)] rounded-t-[2.5rem]">
         {[
           { view: AppView.LANDING, icon: Home, label: 'Beranda' },

@@ -13,6 +13,16 @@ export const PACKAGES: Package[] = [
       'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800'
     ],
+    hotelImages: [
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800', // Luxury Lobby
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=800', // Mecca Room View
+      'https://images.unsplash.com/photo-1551882547-ff43c63fed0c?auto=format&fit=crop&q=80&w=800'  // Madinah Hotel
+    ],
+    hotelCaptions: [
+      'Lobby Mewah Pullman Zamzam Mekkah',
+      'Pemandangan Kamar Menghadap Masjidil Haram',
+      'Fasilitas Restoran di Hotel Madinah'
+    ],
     airline: 'Saudi Arabian Airlines',
     hotelMecca: 'Pullman Zamzam (5*)',
     hotelMadinah: 'Dallah Taibah (4*)',
@@ -21,6 +31,35 @@ export const PACKAGES: Package[] = [
     available: 12,
     description: 'Nikmati kekhusyukan ibadah Umrah di bulan Syawal dengan fasilitas hotel bintang 5.',
     features: ['Visa Umrah', 'Tiket PP Ekonomi', 'Makan 3x Sehari', 'Handling & Zamzam'],
+    included: [
+      'Tiket Pesawat Saudi Arabian Airlines PP',
+      'Visa Umrah & Asuransi Perjalanan',
+      'Hotel Bintang 5 (Mecca) & Bintang 4 (Madinah)',
+      'Makan 3x Sehari (Menu Indonesia)',
+      'Transportasi Bus Full AC Terbaru',
+      'Ziarah Kota Madinah & Mekkah',
+      'Air Zamzam 5 Liter',
+      'Manasik Umrah di Hotel',
+      'Muthawif Profesional'
+    ],
+    excluded: [
+      'Biaya Pembuatan Paspor',
+      'Kelebihan Bagasi',
+      'Pengeluaran Pribadi (Laundry, Telepon, dll)',
+      'Suntik Meningitis/Kesehatan Pribadi',
+      'Tip Guide/Muthawif'
+    ],
+    itinerary: [
+      { day: 1, title: 'Keberangkatan Jakarta - Jeddah', description: 'Berkumpul di Bandara Soekarno Hatta dan terbang menuju Jeddah.' },
+      { day: 2, title: 'Check-in Madinah', description: 'Tiba di Madinah, check-in hotel dan istirahat sebelum ke Masjid Nabawi.' },
+      { day: 3, title: 'Ziarah Madinah', description: 'Mengunjungi Masjid Quba, Kebun Kurma, dan Jabal Uhud.' },
+      { day: 4, title: 'Madinah - Mekkah (Umrah 1)', description: 'Persiapan Miqat di Bir Ali, menuju Mekkah and melaksanakan Umrah pertama.' },
+      { day: 5, title: 'Ibadah Mandiri', description: 'Memperbanyak ibadah di Masjidil Haram.' },
+      { day: 6, title: 'Ziarah Mekkah', description: 'Mengunjungi Jabal Tsur, Arafah, Mina, dan Jabal Nur.' },
+      { day: 7, title: 'Tawaf Wada', description: 'Pelaksanaan Tawaf perpisahan sebelum meninggalkan Mekkah.' },
+      { day: 8, title: 'Jeddah City Tour', description: 'Mengunjungi Masjid Terapung dan Corniche sebelum ke Bandara.' },
+      { day: 9, title: 'Tiba di Jakarta', description: 'Insya Allah tiba kembali di tanah air dengan Umrah yang Mabrur.' }
+    ],
     rating: 4.8,
     reviewCount: 124
   },
@@ -35,6 +74,14 @@ export const PACKAGES: Package[] = [
       'https://images.unsplash.com/photo-1512443154448-b39f33878793?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1541432901012-a7abc3502314?auto=format&fit=crop&q=80&w=800'
     ],
+    hotelImages: [
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&q=80&w=800'
+    ],
+    hotelCaptions: [
+      'Akomodasi Bintang 5 di Istanbul',
+      'Kamar Nyaman Movenpick Mekkah'
+    ],
     airline: 'Turkish Airlines',
     hotelMecca: 'Movenpick (5*)',
     hotelMadinah: 'Frontel Al Harithia (5*)',
@@ -43,6 +90,28 @@ export const PACKAGES: Package[] = [
     available: 5,
     description: 'Perpaduan sempurna antara wisata sejarah Islam di Turki dan ibadah Umrah di Tanah Suci.',
     features: ['City Tour Istanbul', 'Bosphorus Cruise', 'Visa Turkiye & Umrah', 'Guide Berpengalaman'],
+    included: [
+      'Tiket Pesawat Turkish Airlines PP',
+      'Visa Turki & Visa Umrah',
+      'Hotel Bintang 5 di Istanbul, Madinah, Mekkah',
+      'Bosphorus Cruise Dinner',
+      'Tiket Masuk Museum & Situs Bersejarah',
+      'Air Zamzam 5 Liter',
+      'Makan Sesuai Jadwal'
+    ],
+    excluded: [
+      'Personal Expenses',
+      'Optional Tours (Hot Air Balloon in Cappadocia)',
+      'Tipping Guide $5/day',
+      'Asuransi Kesehatan Khusus'
+    ],
+    itinerary: [
+      { day: 1, title: 'Jakarta - Istanbul', description: 'Terbang menuju Istanbul.' },
+      { day: 2, title: 'Blue Mosque & Hagia Sophia', description: 'Menjelajahi ikon sejarah di Sultanahmet Square.' },
+      { day: 3, title: 'Bosphorus Cruise', description: 'Menikmati selat pemisah benua Asia & Eropa.' },
+      { day: 4, title: 'Istanbul - Madinah', description: 'Melanjutkan perjalanan menuju Kota Nabi.' },
+      { day: 12, title: 'Mekkah - Jeddah - Jakarta', description: 'Kembali ke tanah air melalui Jeddah.' }
+    ],
     rating: 4.9,
     reviewCount: 89
   },
@@ -57,6 +126,14 @@ export const PACKAGES: Package[] = [
       'https://images.unsplash.com/photo-1580628396458-9430c559869a?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?auto=format&fit=crop&q=80&w=800'
     ],
+    hotelImages: [
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&q=80&w=800'
+    ],
+    hotelCaptions: [
+      'Swissotel Al Maqam Mekkah',
+      'Tenda Premium di Mina'
+    ],
     airline: 'Saudi Arabian Airlines',
     hotelMecca: 'Swissotel Al Maqam (5*)',
     hotelMadinah: 'Al Aqeeq Madinah (5*)',
@@ -65,6 +142,26 @@ export const PACKAGES: Package[] = [
     available: 8,
     description: 'Haji tanpa antre dengan visa resmi Furoda dan fasilitas premium selama di Arafah & Mina.',
     features: ['Visa Furoda', 'Maktab Premium', 'Tenda Ber-AC', 'Muthawif Khusus'],
+    included: [
+      'Visa Haji Furoda Resmi',
+      'Tiket Saudi Airlines Direct Class Ekonomi (Upgrade available)',
+      'Akomodasi Hotel Bintang 5 Dekat Masjid',
+      'Tenda AC di Arafah & Mina (Maktab 111/112)',
+      'Makan Buffet 3x Sehari',
+      'Bus Antar Kota Full Premium',
+      'Perlengkapan Haji Eksklusif'
+    ],
+    excluded: [
+      'DAM (Hadi)',
+      'Qurban',
+      'Kesehatan Pribadi',
+      'Oleh-oleh'
+    ],
+    itinerary: [
+      { day: 1, title: 'Jakarta - Jeddah', description: 'Menuju Jeddah.' },
+      { day: 10, title: 'Wukuf Arafah', description: 'Inti ibadah Haji di Padang Arafah.' },
+      { day: 25, title: 'Kepulangan', description: 'Selesai rangkaian Haji kembali ke Jakarta.' }
+    ],
     rating: 5.0,
     reviewCount: 42
   }

@@ -1,4 +1,10 @@
 
+export interface ItineraryDay {
+  day: number;
+  title: string;
+  description: string;
+}
+
 export interface Package {
   id: string;
   title: string;
@@ -6,6 +12,8 @@ export interface Package {
   duration: string;
   price: number;
   images: string[];
+  hotelImages?: string[]; // Added for detail carousel
+  hotelCaptions?: string[]; // Optional captions for hotel photos
   airline: string;
   hotelMecca: string;
   hotelMadinah: string;
@@ -14,6 +22,9 @@ export interface Package {
   available: number;
   description: string;
   features: string[];
+  included: string[];
+  excluded: string[];
+  itinerary: ItineraryDay[];
   rating: number;
   reviewCount: number;
 }
