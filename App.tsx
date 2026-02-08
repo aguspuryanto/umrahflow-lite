@@ -54,13 +54,19 @@ import {
 
 // --- Sub-components ---
 
-const Navbar: React.FC<{ currentView: AppView; setView: (v: AppView) => void }> = ({ currentView, setView }) => {
-  const navItems = [
+const Navbar: React.FC<{ 
+  currentView: AppView; 
+  setView: (v: AppView) => void; 
+  showLogin: boolean;
+  setShowLogin: (show: boolean) => void;
+  onLogin: () => void;
+  isLoggedIn: boolean;
+}> = ({ currentView, setView, showLogin, setShowLogin, onLogin, isLoggedIn }) => {
+  const navItems = isLoggedIn ? [] : [
     { view: AppView.LANDING, label: 'Beranda' },
     { view: AppView.PACKAGES, label: 'Paket' },
     { view: AppView.COMMUNITY, label: 'Komunitas' },
     { view: AppView.MAP, label: 'Eksplor Peta' },
-    { view: AppView.DASHBOARD, label: 'Admin' },
   ];
 
   return (
@@ -90,9 +96,21 @@ const Navbar: React.FC<{ currentView: AppView; setView: (v: AppView) => void }> 
             <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full">
               <Search className="w-5 h-5" />
             </button>
-            <button className="hidden sm:block px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-all shadow-md shadow-emerald-200">
-              Masuk
-            </button>
+            {isLoggedIn ? (
+              <button 
+                onClick={() => setView(AppView.DASHBOARD)}
+                className="hidden sm:block px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-all shadow-md shadow-emerald-200"
+              >
+                Dashboard
+              </button>
+            ) : (
+              <button 
+                onClick={() => setShowLogin(true)}
+                className="hidden sm:block px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-all shadow-md shadow-emerald-200"
+              >
+                Masuk
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -718,7 +736,109 @@ const LandingPage: React.FC<{ onExplore: () => void }> = ({ onExplore }) => {
   );
 };
 
-const Dashboard: React.FC = () => {
+const LoginPage: React.FC<{ onLogin: () => void; onClose: () => void }> = ({ onLogin, onClose }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simulate login process
+    setTimeout(() => {
+      setIsLoading(false);
+      onLogin();
+    }, 1500);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+      <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden animate-in zoom-in-95 duration-300">
+        <div className="bg-emerald-600 p-6 text-white">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+                <Moon className="w-7 h-7 fill-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold">Login Admin</h2>
+                <p className="text-sm text-emerald-100">UmrahFlow Dashboard</p>
+              </div>
+            </div>
+            <button 
+              onClick={onClose}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-8">
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@umrahflow.com"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none font-medium text-gray-900 placeholder:text-gray-400"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none font-medium text-gray-900 placeholder:text-gray-400"
+                required
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
+                <span className="text-sm text-gray-600">Ingat saya</span>
+              </label>
+              <button type="button" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+                Lupa password?
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full mt-8 bg-emerald-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 disabled:opacity-50 disabled:hover:bg-emerald-600 flex items-center justify-center gap-3"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Masuk...
+              </>
+            ) : (
+              'Masuk ke Dashboard'
+            )}
+          </button>
+
+          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+            <p className="text-xs text-amber-800 font-medium">
+              <strong>Demo:</strong> Gunakan email dan password apa saja untuk login
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+const Dashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   const chartData = [
     { name: 'Jan', value: 45 },
     { name: 'Feb', value: 52 },
@@ -738,6 +858,12 @@ const Dashboard: React.FC = () => {
         <div className="flex gap-4">
           <button className="px-6 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-bold hover:bg-gray-50 transition-all shadow-sm">Ekspor Laporan</button>
           <button className="px-6 py-3 bg-emerald-600 text-white rounded-2xl text-sm font-bold hover:bg-emerald-700 transition-all shadow-lg">Tambah Pendaftaran</button>
+          <button 
+            onClick={onLogout}
+            className="px-6 py-3 bg-rose-600 text-white rounded-2xl text-sm font-bold hover:bg-rose-700 transition-all shadow-lg"
+          >
+            Keluar
+          </button>
         </div>
       </div>
 
@@ -1082,10 +1208,23 @@ const PackageBooking: React.FC<{ pkg: Package; onBack: () => void; onComplete: (
 const App: React.FC = () => {
   const [view, setView] = useState<AppView>(AppView.LANDING);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handlePackageSelect = (pkg: Package) => {
     setSelectedPackage(pkg);
     setView(AppView.BOOKING);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    setShowLogin(false);
+    setView(AppView.DASHBOARD);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setView(AppView.LANDING);
   };
 
   useEffect(() => {
@@ -1117,7 +1256,7 @@ const App: React.FC = () => {
       case AppView.MAP:
         return <MapView />;
       case AppView.DASHBOARD:
-        return <Dashboard />;
+        return <Dashboard onLogout={handleLogout} />;
       case AppView.BOOKING:
         return selectedPackage ? (
           <PackageBooking 
@@ -1133,20 +1272,33 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 lg:pb-0">
-      <Navbar currentView={view} setView={setView} />
+      <Navbar 
+        currentView={view} 
+        setView={setView} 
+        showLogin={showLogin}
+        setShowLogin={setShowLogin}
+        onLogin={handleLogin}
+        isLoggedIn={isLoggedIn}
+      />
       
       <main className="animate-in fade-in duration-500">
         {renderContent()}
       </main>
 
+      {showLogin && (
+        <LoginPage 
+          onLogin={handleLogin}
+          onClose={() => setShowLogin(false)}
+        />
+      )}
+
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-gray-100 px-3 py-4 flex justify-between items-center z-50 shadow-[0_-10px_25px_rgba(0,0,0,0.05)] rounded-t-[2.5rem]">
-        {[
+        {(isLoggedIn ? [] : [
           { view: AppView.LANDING, icon: Home, label: 'Beranda' },
           { view: AppView.PACKAGES, icon: Plane, label: 'Paket' },
           { view: AppView.COMMUNITY, icon: Users, label: 'Forum' },
           { view: AppView.MAP, icon: MapIcon, label: 'Peta' },
-          { view: AppView.DASHBOARD, icon: User, label: 'Admin' },
-        ].map((item) => (
+        ]).map((item) => (
           <button 
             key={item.view}
             onClick={() => setView(item.view)} 
