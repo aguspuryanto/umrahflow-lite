@@ -1,5 +1,30 @@
 
 import { Package, Pilgrim, Post, Review, MapLocation } from './types';
+import { 
+  LayoutDashboard,
+  Users,
+  Package as PackageIcon,
+  PlaneTakeoff,
+  FileText,
+  DollarSign,
+  CheckCircle,
+  Download,
+  CreditCard,
+  ChartBar
+} from 'lucide-react';
+
+export const MENU_ITEMS = [
+  { name: 'Dashboard', icon: LayoutDashboard },
+  { name: 'User Management', icon: Users },
+  { name: 'Input Paket Umroh', icon: PackageIcon },
+  { name: 'Input Maskapai', icon: PlaneTakeoff },
+  { name: 'Data Jamaah', icon: FileText },
+  { name: 'Pembayaran', icon: DollarSign },
+  { name: 'Status Pembayaran', icon: CheckCircle },
+  { name: 'Export/Import Data', icon: Download },
+  { name: 'Payment Gateway', icon: CreditCard },
+  { name: 'Laporan Jamaah', icon: ChartBar },
+];
 
 export const PACKAGES: Package[] = [
   {
